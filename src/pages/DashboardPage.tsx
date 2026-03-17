@@ -13,7 +13,7 @@ import { AgentsTab } from '@/tabs/AgentsTab';
 import { CallsTab } from '@/tabs/CallsTab';
 import { SipLinesTab } from '@/tabs/SipLinesTab';
 import { ClientsTab } from '@/tabs/ClientsTab';
-import { fetchClients, createClient, advanceClientStage } from '@/services/dashboardApi';
+import { fetchClients, createClient, advanceClientStage, regressClientStage, updateClientSection } from '@/services/dashboardApi';
 import { useEffect } from 'react';
 
 const TABS: TabDef[] = [
@@ -42,10 +42,22 @@ export default function DashboardPage() {
   }, [d.session, d.selectedTenant]);
 
   const handleAdvanceStage = useCallback(async (clientId: string) => {
-    await advanceClientStage(clientId);
+    await advanceClientStage(clientId, d.session?.userId, d.session?.displayName);
     const updated = await fetchClients(d.selectedTenant);
     setClients(updated);
-  }, [d.selectedTenant]);
+  }, [d.selectedTenant, d.session]);
+
+  const handleUpdateClient = useCallback(async (clientId: string, section: string, data: unknown) => {
+    await updateClientSection(clientId, section as Parameters<typeof updateClientSection>[1], data, d.session?.userId, d.session?.displayName);
+    const updated = await fetchClients(d.selectedTenant);
+    setClients(updated);
+  }, [d.selectedTenant, d.session]);
+
+  const handleRegressStage = useCallback(async (clientId: string, reason: string) => {
+    await regressClientStage(clientId, d.session?.userId, d.session?.displayName, reason);
+    const updated = await fetchClients(d.selectedTenant);
+    setClients(updated);
+  }, [d.selectedTenant, d.session]);
 
   return (
     <div className="cc-root">
@@ -119,6 +131,8 @@ export default function DashboardPage() {
                 permissions={permissions}
                 onCreateClient={handleCreateClient}
                 onAdvanceStage={handleAdvanceStage}
+                onUpdateClient={handleUpdateClient}
+                onRegressStage={handleRegressStage}
               />
             )}
           </>

@@ -6,7 +6,7 @@ import type {
   BookingRules, TestingGoLive,
 } from './types';
 import { getCurrentSession } from './mockSession';
-import { logStageChange, logClientCreation } from './activityLog';
+import { logStageChange, logClientCreation, logSectionUpdate } from './activityLog';
 import {
   ONBOARDING_STAGES,
   validateStageTransition,
@@ -14,6 +14,37 @@ import {
   getGoLiveBlockers,
   getGoLiveWarnings,
 } from '@/utils/onboardingValidation';
+
+/* ─── localStorage Persistence ─── */
+
+const STORAGE_KEY = 'cc-clients-store-v1';
+
+function loadClientsFromStorage(): TenantOnboarding[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored) as TenantOnboarding[];
+      return Array.isArray(parsed) && parsed.length > 0 ? parsed : [];
+    }
+  } catch { /* ignore parse errors */ }
+  return [];
+}
+
+function saveClientsToStorage(clients: TenantOnboarding[]): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
+  } catch { /* ignore storage errors */ }
+}
+
+export type OnboardingSectionKey =
+  | 'clientDetails'
+  | 'businessRules'
+  | 'queueSetup'
+  | 'scriptKnowledgeBase'
+  | 'bookingRules'
+  | 'testingGoLive';
 
 /* ═══════════════════════════════════════════════════════════════
    Mock API Service Layer
@@ -252,7 +283,7 @@ const SIP_LINES: SipLine[] = [
 
 /* ─── Client Onboarding Data ─── */
 
-const clientsStore: TenantOnboarding[] = [
+const DEFAULT_CLIENTS: TenantOnboarding[] = [
   {
     ...TENANTS[0],
     onboardingStage: 'live' as OnboardingStage,
@@ -306,6 +337,10 @@ const clientsStore: TenantOnboarding[] = [
     activityLog: [],
   },
 ];
+
+// Load persisted clients or fall back to seed data
+const storedClients = loadClientsFromStorage();
+const clientsStore: TenantOnboarding[] = storedClients.length > 0 ? storedClients : [...DEFAULT_CLIENTS];
 
 /* ─── API Functions ─── */
 
@@ -415,6 +450,7 @@ export async function createClient(data: NewClientForm, createdBy: string): Prom
   };
   clientsStore.push(tenant);
   logClientCreation(tenant, createdBy, 'System');
+  saveClientsToStorage(clientsStore);
   return tenant;
 }
 
@@ -448,6 +484,7 @@ export async function advanceClientStage(
     const previousStage = client.onboardingStage;
     client.onboardingStage = nextStage;
     logStageChange(client, userId, userName, previousStage, nextStage);
+    saveClientsToStorage(clientsStore);
   }
 
   return { client: { ...client }, transition };
@@ -481,7 +518,56 @@ export async function regressClientStage(
     });
   }
 
+  saveClientsToStorage(clientsStore);
   return { ...client };
+}
+
+export async function updateClientSection(
+  clientId: string,
+  sectionKey: OnboardingSectionKey,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any,
+  userId: string = 'unknown',
+  userName: string = 'Unknown',
+): Promise<TenantOnboarding | null> {
+  await wait(API_LATENCY);
+  const client = clientsStore.find((c) => c.id === clientId);
+  if (!client) return null;
+
+  (client as Record<string, unknown>)[sectionKey] = data;
+
+  // Mirror top-level contact fields from clientDetails for display
+  if (sectionKey === 'clientDetails') {
+    client.contactName = data.primaryContactName || client.contactName;
+    client.contactPhone = data.primaryContactPhone || client.contactPhone;
+    client.contactEmail = data.primaryContactEmail || client.contactEmail;
+    client.name = data.businessName || client.name;
+  }
+
+  logSectionUpdate(client, userId, userName, sectionKey, sectionKey, '', '(updated)');
+  saveClientsToStorage(clientsStore);
+  return { ...client };
+}
+
+export async function updateClientNotes(
+  clientId: string,
+  notes: string,
+  userId: string = 'unknown',
+  userName: string = 'Unknown',
+): Promise<TenantOnboarding | null> {
+  await wait(API_LATENCY);
+  const client = clientsStore.find((c) => c.id === clientId);
+  if (!client) return null;
+  client.notes = notes;
+  logSectionUpdate(client, userId, userName, 'Notes', 'notes', client.notes, notes);
+  saveClientsToStorage(clientsStore);
+  return { ...client };
+}
+
+export function clearClientsStorage(): void {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(STORAGE_KEY);
+  }
 }
 
 export async function getClientValidation(clientId: string): Promise<{

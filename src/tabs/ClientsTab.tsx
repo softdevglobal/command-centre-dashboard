@@ -1,22 +1,28 @@
 import { useState } from 'react';
-import type { TenantOnboarding, Permissions, NewClientForm, OnboardingStage } from '@/services/types';
+import type { TenantOnboarding, Permissions, NewClientForm } from '@/services/types';
 import { OnboardingStageBadge } from '@/components/dashboard/OnboardingStageBadge';
 import { ClientSignupModal } from '@/components/dashboard/ClientSignupModal';
-import { ONBOARDING_STAGES } from '@/utils/onboardingValidation';
+import { ClientOnboardingPanel } from '@/components/dashboard/ClientOnboardingPanel';
+import { getGoLiveBlockers, getGoLiveWarnings } from '@/utils/onboardingValidation';
 
 interface Props {
   clients: TenantOnboarding[];
   permissions: Permissions;
   onCreateClient: (data: NewClientForm) => void;
   onAdvanceStage: (clientId: string) => void;
+  onUpdateClient: (clientId: string, section: string, data: unknown) => Promise<void>;
+  onRegressStage: (clientId: string, reason: string) => void;
 }
 
-export function ClientsTab({ clients, permissions, onCreateClient, onAdvanceStage }: Props) {
+export function ClientsTab({ clients, permissions, onCreateClient, onAdvanceStage, onUpdateClient, onRegressStage }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
 
   const visibleClients = permissions.canViewAllTenants
     ? clients
     : clients.filter((c) => c.id === permissions.allowedTenantId);
+
+  const selectedClient = selectedClientId ? clients.find((c) => c.id === selectedClientId) ?? null : null;
 
   return (
     <div className="cc-fade-in">
@@ -43,6 +49,7 @@ export function ClientsTab({ clients, permissions, onCreateClient, onAdvanceStag
                 <th>Industry</th>
                 <th>Contact</th>
                 <th>Stage</th>
+                <th>Health</th>
                 <th>Created</th>
                 {permissions.canAdvanceOnboarding && <th>Action</th>}
               </tr>
@@ -51,8 +58,14 @@ export function ClientsTab({ clients, permissions, onCreateClient, onAdvanceStag
               {visibleClients.map((c) => {
                 const isLive = c.onboardingStage === 'live';
                 const isNeedsRevision = c.onboardingStage === 'needs-revision';
+                const blockers = getGoLiveBlockers(c);
+                const warnings = getGoLiveWarnings(c);
                 return (
-                  <tr key={c.id}>
+                  <tr
+                    key={c.id}
+                    onClick={() => setSelectedClientId(c.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <span
@@ -70,6 +83,19 @@ export function ClientsTab({ clients, permissions, onCreateClient, onAdvanceStag
                       </div>
                     </td>
                     <td><OnboardingStageBadge stage={c.onboardingStage} /></td>
+                    <td>
+                      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                        {blockers.length > 0
+                          ? <span className="cc-blocker-chip">⛔ {blockers.length}</span>
+                          : isLive
+                          ? <span className="cc-ok-chip">✓ Live</span>
+                          : <span className="cc-ok-chip">✓ OK</span>
+                        }
+                        {warnings.length > 0 && (
+                          <span className="cc-warning-chip">⚠ {warnings.length}</span>
+                        )}
+                      </div>
+                    </td>
                     <td className="cc-table-mono cc-table-muted">
                       {new Date(c.createdAt).toLocaleDateString()}
                     </td>
@@ -78,11 +104,11 @@ export function ClientsTab({ clients, permissions, onCreateClient, onAdvanceStag
                         {isLive ? (
                           <span className="cc-table-muted">✓ Live</span>
                         ) : isNeedsRevision ? (
-                          <span className="cc-table-muted" style={{ color: '#ef4444' }}>⚠ Revision Required</span>
+                          <span className="cc-table-muted" style={{ color: '#ef4444' }}>⚠ Revision</span>
                         ) : (
                           <button
                             className="cc-btn cc-btn-small cc-btn-ghost"
-                            onClick={() => onAdvanceStage(c.id)}
+                            onClick={(e) => { e.stopPropagation(); onAdvanceStage(c.id); }}
                           >
                             Advance →
                           </button>
@@ -102,6 +128,17 @@ export function ClientsTab({ clients, permissions, onCreateClient, onAdvanceStag
         onClose={() => setModalOpen(false)}
         onSubmit={onCreateClient}
       />
+
+      {selectedClient && (
+        <ClientOnboardingPanel
+          client={selectedClient}
+          permissions={permissions}
+          onClose={() => setSelectedClientId(null)}
+          onSaveSection={onUpdateClient}
+          onAdvanceStage={onAdvanceStage}
+          onRegressStage={onRegressStage}
+        />
+      )}
     </div>
   );
 }

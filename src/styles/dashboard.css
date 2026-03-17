@@ -236,7 +236,7 @@
   background: transparent;
   cursor: pointer;
   font-family: var(--cc-font-mono);
-  font-size: 11.5px;
+  font-size: 12.5px;
   letter-spacing: 1px;
   color: var(--cc-text-muted);
   border-bottom: 2px solid transparent;
@@ -296,7 +296,7 @@
 
 .cc-metric-label {
   font-family: var(--cc-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--cc-text-muted);
@@ -313,7 +313,7 @@
 
 .cc-metric-sub {
   font-family: var(--cc-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--cc-text-muted);
   margin-top: 4px;
 }
@@ -358,7 +358,7 @@
 
 .cc-queue-tenant {
   font-family: var(--cc-font-mono);
-  font-size: 9px;
+  font-size: 10px;
   color: var(--cc-text-muted);
   margin-top: 1px;
   letter-spacing: 0.3px;
@@ -371,7 +371,7 @@
 
 .cc-queue-stat-label {
   font-family: var(--cc-font-mono);
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: var(--cc-text-muted);
@@ -394,7 +394,7 @@
 .cc-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--cc-text-secondary);
 }
 
@@ -406,7 +406,7 @@
   padding: 10px 14px;
   text-align: left;
   font-family: var(--cc-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--cc-text-muted);
@@ -432,7 +432,7 @@
 
 .cc-table-mono {
   font-family: var(--cc-font-mono);
-  font-size: 12px;
+  font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -444,7 +444,7 @@
 .cc-badge {
   display: inline-block;
   font-family: var(--cc-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   padding: 2px 8px;
   border-radius: var(--cc-radius-sm);
@@ -453,7 +453,7 @@
 }
 
 .cc-badge-queue {
-  font-size: 10.5px;
+  font-size: 12px;
 }
 
 /* ─── Filter Chips ─── */
@@ -471,7 +471,7 @@
   background: transparent;
   color: var(--cc-text-muted);
   font-family: var(--cc-font-mono);
-  font-size: 11.5px;
+  font-size: 12.5px;
   cursor: pointer;
   transition: all 0.2s;
   letter-spacing: 0.3px;
@@ -512,7 +512,7 @@
 
 .cc-status-label {
   font-family: var(--cc-font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--cc-text-muted);
 }
 
@@ -566,7 +566,7 @@
 
 .cc-agent-meta {
   font-family: var(--cc-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--cc-text-muted);
   margin-top: 2px;
 }
@@ -774,7 +774,7 @@
   border-radius: var(--cc-radius-sm);
   color: var(--cc-text-primary);
   font-family: var(--cc-font-mono);
-  font-size: 12px;
+  font-size: 13px;
   padding: 7px 14px;
   width: 100%;
   max-width: 360px;
@@ -795,7 +795,7 @@
   align-items: center;
   gap: 4px;
   font-family: var(--cc-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   padding: 2px 6px;
   border-radius: var(--cc-radius-sm);
 }
@@ -833,7 +833,7 @@
 
 .cc-modal-title {
   font-family: var(--cc-font-mono);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 1.5px;
   color: var(--cc-color-cyan);
   font-weight: 600;
@@ -870,7 +870,7 @@
 .cc-form-label {
   display: block;
   font-family: var(--cc-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: var(--cc-text-muted);
@@ -966,7 +966,7 @@
 /* ─── Buttons ─── */
 .cc-btn {
   font-family: var(--cc-font-mono);
-  font-size: 11.5px;
+  font-size: 12.5px;
   letter-spacing: 0.5px;
   padding: 8px 18px;
   border-radius: var(--cc-radius-sm);
@@ -999,7 +999,7 @@
 
 .cc-btn-small {
   padding: 4px 12px;
-  font-size: 10.5px;
+  font-size: 11.5px;
 }
 
 /* ─── Section Header ─── */
@@ -1012,7 +1012,7 @@
 
 .cc-section-title {
   font-family: var(--cc-font-mono);
-  font-size: 11.5px;
+  font-size: 12.5px;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--cc-text-muted);
@@ -1048,6 +1048,478 @@
   margin-right: 4px;
   animation: cc-pulse-ring 2s ease-out infinite;
 }
+
+/* ─── Company Pill (Calls Tab — critical client identification) ─── */
+.cc-company-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 12px 4px 8px;
+  border-radius: var(--cc-radius-sm);
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.cc-company-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Onboarding Blocker/Warning Count Chips ─── */
+.cc-blocker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--cc-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(244, 63, 94, 0.12);
+  color: var(--cc-color-red);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  white-space: nowrap;
+}
+
+.cc-warning-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--cc-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--cc-color-amber);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  white-space: nowrap;
+}
+
+.cc-ok-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--cc-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(52, 211, 153, 0.1);
+  color: var(--cc-color-green);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  white-space: nowrap;
+}
+
+/* ─── Onboarding Panel (Drawer) ─── */
+.cc-panel-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.55);
+  animation: cc-fade-in 0.2s ease;
+}
+
+.cc-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 660px;
+  max-width: 96vw;
+  background: var(--cc-bg-panel);
+  border-left: 1px solid var(--cc-border-strong);
+  display: flex;
+  flex-direction: column;
+  z-index: 201;
+  animation: cc-panel-slide-in 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes cc-panel-slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.cc-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 24px 14px;
+  border-bottom: 1px solid var(--cc-border-subtle);
+  flex-shrink: 0;
+}
+
+.cc-panel-client-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cc-text-primary);
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+
+.cc-panel-client-meta {
+  font-family: var(--cc-font-mono);
+  font-size: 11px;
+  color: var(--cc-text-muted);
+  letter-spacing: 0.3px;
+}
+
+.cc-panel-close {
+  background: transparent;
+  border: none;
+  color: var(--cc-text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--cc-radius-sm);
+  transition: color 0.2s;
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+
+.cc-panel-close:hover {
+  color: var(--cc-text-primary);
+}
+
+.cc-panel-stage-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--cc-border-subtle);
+  background: var(--cc-bg-elevated);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.cc-panel-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--cc-border-subtle);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+}
+
+.cc-panel-tabs::-webkit-scrollbar { display: none; }
+
+.cc-panel-tab {
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: var(--cc-text-muted);
+  font-family: var(--cc-font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cc-panel-tab:hover {
+  color: var(--cc-text-secondary);
+  background: var(--cc-bg-hover);
+}
+
+.cc-panel-tab-active {
+  color: var(--cc-color-cyan);
+  border-bottom-color: var(--cc-color-cyan);
+}
+
+.cc-panel-tab-error {
+  color: var(--cc-color-red);
+}
+
+.cc-panel-tab-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.cc-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.cc-panel-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--cc-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  background: var(--cc-bg-elevated);
+}
+
+/* ─── Validation Box (in panel sections) ─── */
+.cc-validation-box {
+  border-radius: var(--cc-radius-md);
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+
+.cc-validation-box-blockers {
+  background: rgba(244, 63, 94, 0.06);
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+.cc-validation-box-warnings {
+  background: rgba(251, 191, 36, 0.06);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.cc-validation-box-ok {
+  background: rgba(52, 211, 153, 0.06);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.cc-validation-box-title {
+  font-family: var(--cc-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.cc-validation-item {
+  font-family: var(--cc-font-mono);
+  font-size: 11.5px;
+  padding: 3px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.5;
+}
+
+.cc-validation-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ─── Business Hours Table ─── */
+.cc-bh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.cc-bh-table td {
+  padding: 5px 8px;
+}
+
+.cc-bh-table td:first-child {
+  font-family: var(--cc-font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--cc-text-muted);
+  width: 100px;
+}
+
+.cc-bh-time-input {
+  background: var(--cc-bg-elevated);
+  border: 1px solid var(--cc-border-default);
+  border-radius: 4px;
+  color: var(--cc-text-primary);
+  font-family: var(--cc-font-mono);
+  font-size: 12px;
+  padding: 4px 8px;
+  width: 90px;
+  outline: none;
+}
+
+.cc-bh-time-input:focus {
+  border-color: var(--cc-color-cyan);
+}
+
+/* ─── Panel Queue Cards ─── */
+.cc-queue-item-card {
+  background: var(--cc-bg-elevated);
+  border: 1px solid var(--cc-border-default);
+  border-radius: var(--cc-radius-md);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.cc-queue-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cc-queue-item-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cc-text-primary);
+}
+
+/* ─── Tag Input ─── */
+.cc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.cc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--cc-font-mono);
+  font-size: 11.5px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: rgba(0, 212, 245, 0.1);
+  color: var(--cc-color-cyan);
+  border: 1px solid rgba(0, 212, 245, 0.2);
+}
+
+.cc-tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+  font-size: 13px;
+  padding: 0;
+  line-height: 1;
+}
+
+.cc-tag-remove:hover { opacity: 1; }
+
+/* ─── Panel Toggle ─── */
+.cc-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cc-border-subtle);
+}
+
+.cc-toggle-label {
+  font-size: 13.5px;
+  color: var(--cc-text-primary);
+}
+
+.cc-toggle-sub {
+  font-family: var(--cc-font-mono);
+  font-size: 11px;
+  color: var(--cc-text-muted);
+  margin-top: 2px;
+}
+
+.cc-toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.cc-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cc-toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--cc-bg-elevated);
+  border: 1px solid var(--cc-border-strong);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cc-toggle-slider::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--cc-text-muted);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.cc-toggle input:checked + .cc-toggle-slider {
+  background: rgba(0, 212, 245, 0.15);
+  border-color: var(--cc-color-cyan);
+}
+
+.cc-toggle input:checked + .cc-toggle-slider::before {
+  transform: translateX(18px) translateY(-50%);
+  background: var(--cc-color-cyan);
+}
+
+/* ─── Activity Log ─── */
+.cc-activity-entry {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cc-border-subtle);
+}
+
+.cc-activity-entry:last-child { border-bottom: none; }
+
+.cc-activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cc-color-cyan);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.cc-activity-content {
+  flex: 1;
+}
+
+.cc-activity-detail {
+  font-size: 13px;
+  color: var(--cc-text-primary);
+  line-height: 1.5;
+}
+
+.cc-activity-meta {
+  font-family: var(--cc-font-mono);
+  font-size: 10.5px;
+  color: var(--cc-text-muted);
+  margin-top: 3px;
+}
+
+/* ─── Test Call Items ─── */
+.cc-test-call-item {
+  background: var(--cc-bg-elevated);
+  border: 1px solid var(--cc-border-default);
+  border-radius: var(--cc-radius-md);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cc-test-call-result-pass { color: var(--cc-color-green); }
+.cc-test-call-result-fail { color: var(--cc-color-red); }
+.cc-test-call-result-partial { color: var(--cc-color-amber); }
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {

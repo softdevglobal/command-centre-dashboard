@@ -124,7 +124,27 @@ export function CallsTab({ calls, queues, tenants, permissions }: CallsTabProps)
                     </div>
                   )}
                 </td>
-                {permissions.canViewTenantNames && <td className="cc-table-muted">{c.tenantName}</td>}
+                {permissions.canViewTenantNames && (
+                <td>
+                  {(() => {
+                    const tenant = tenants.find((t) => t.id === c.tenantId);
+                    const color = tenant?.brandColor ?? 'var(--cc-color-cyan)';
+                    return (
+                      <span
+                        className="cc-company-pill"
+                        style={{
+                          background: `${color}18`,
+                          border: `1px solid ${color}35`,
+                          color,
+                        }}
+                      >
+                        <span className="cc-company-dot" style={{ background: color }} />
+                        {c.tenantName}
+                      </span>
+                    );
+                  })()}
+                </td>
+              )}
                 <td>
                   <span
                     className="cc-badge cc-badge-queue"
