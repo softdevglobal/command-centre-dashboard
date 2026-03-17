@@ -97,7 +97,7 @@ export function CallsTab({ calls, queues, tenants, permissions }: CallsTabProps)
             <tr>
               <th>Time</th>
               <th>Caller</th>
-              {permissions.canViewTenantNames && <th>Client</th>}
+              <th>Client</th>
               <th>Queue</th>
               <th>Agent</th>
               <th>Duration</th>
