@@ -560,3 +560,21 @@ export async function getClientValidation(clientId: string): Promise<{
     warnings: getGoLiveWarnings(client),
   };
 }
+
+export async function fetchAgentGroups(tenantId?: string | null): Promise<AgentGroup[]> {
+  await wait(API_LATENCY);
+  return tenantId ? AGENT_GROUPS.filter((g) => g.tenantId === tenantId) : [...AGENT_GROUPS];
+}
+
+export async function fetchIncomingCalls(allowedQueueIds?: string[]): Promise<IncomingCall[]> {
+  await wait(API_LATENCY);
+  if (allowedQueueIds && allowedQueueIds.length > 0) {
+    return INCOMING_CALLS.filter((c) => allowedQueueIds.includes(c.queueId));
+  }
+  return [...INCOMING_CALLS];
+}
+
+export async function fetchDIDMappings(): Promise<DIDMapping[]> {
+  await wait(API_LATENCY);
+  return [...DID_MAPPINGS];
+}

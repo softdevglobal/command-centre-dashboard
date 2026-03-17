@@ -29,7 +29,17 @@ export function OverviewTab({ summary, queues, agents, tenants, permissions, now
 
   return (
     <div className="cc-fade-in">
-      {/* Metric Cards */}
+      {/* Agent Shift Panel */}
+      {permissions.canViewShiftPanel && session && (
+        <AgentShiftPanel
+          session={session}
+          tenants={tenants}
+          queues={queues}
+          agentGroups={agentGroups || []}
+          incomingCalls={incomingCalls || []}
+          now={now}
+        />
+      )}
       <div className="cc-metrics">
         <MetricCard label="Active Calls" value={summary.activeCalls} accent="var(--cc-color-red)" sub="live now" />
         <MetricCard label="Calls Waiting" value={summary.queuedCalls} accent="var(--cc-color-amber)" sub="in queue" />
