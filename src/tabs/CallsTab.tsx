@@ -108,42 +108,58 @@ export function CallsTab({ calls, queues, tenants, permissions }: CallsTabProps)
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={permissions.canViewTenantNames ? 8 : 7}>
+                <td colSpan={8}>
                   <EmptyState message="No calls match filters" />
                 </td>
               </tr>
             )}
-            {filtered.map((c) => (
-              <tr key={c.id}>
-                <td className="cc-table-mono">{formatTime(c.startTime)}</td>
-                <td className="cc-table-mono">
-                  {formatPhone(c.callerNumber)}
-                  {c.callerName && (
-                    <div style={{ fontSize: 10, color: 'var(--cc-text-muted)', marginTop: 1 }}>
-                      {c.callerName}
-                    </div>
-                  )}
-                </td>
-                {permissions.canViewTenantNames && <td className="cc-table-muted">{c.tenantName}</td>}
-                <td>
-                  <span
-                    className="cc-badge cc-badge-queue"
-                    style={{
-                      color: queues.find((q) => q.id === c.queueId)?.color || 'var(--cc-color-cyan)',
-                      background: `${queues.find((q) => q.id === c.queueId)?.color || 'var(--cc-color-cyan)'}18`,
-                    }}
-                  >
-                    {c.queueName}
-                  </span>
-                </td>
-                <td>{c.agentName}</td>
-                <td className="cc-table-mono">{c.durationSeconds > 0 ? formatSeconds(c.durationSeconds) : '—'}</td>
-                <td><ResultBadge result={c.result} /></td>
-                <td>
-                  <TranscriptIndicator status={c.transcriptStatus} />
-                </td>
-              </tr>
-            ))}
+            {filtered.map((c) => {
+              const tenant = tenants.find((t) => t.id === c.tenantId);
+              const brandColor = tenant?.brandColor || 'var(--cc-color-cyan)';
+              return (
+                <tr key={c.id}>
+                  <td className="cc-table-mono">{formatTime(c.startTime)}</td>
+                  <td className="cc-table-mono">
+                    {formatPhone(c.callerNumber)}
+                    {c.callerName && (
+                      <div style={{ fontSize: 10, color: 'var(--cc-text-muted)', marginTop: 1 }}>
+                        {c.callerName}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <span
+                      className="cc-company-pill"
+                      style={{
+                        color: brandColor,
+                        borderColor: `${brandColor}40`,
+                        background: `${brandColor}12`,
+                      }}
+                    >
+                      <span className="cc-company-pill-dot" style={{ background: brandColor }} />
+                      {c.tenantName}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      className="cc-badge cc-badge-queue"
+                      style={{
+                        color: queues.find((q) => q.id === c.queueId)?.color || 'var(--cc-color-cyan)',
+                        background: `${queues.find((q) => q.id === c.queueId)?.color || 'var(--cc-color-cyan)'}18`,
+                      }}
+                    >
+                      {c.queueName}
+                    </span>
+                  </td>
+                  <td>{c.agentName}</td>
+                  <td className="cc-table-mono">{c.durationSeconds > 0 ? formatSeconds(c.durationSeconds) : '—'}</td>
+                  <td><ResultBadge result={c.result} /></td>
+                  <td>
+                    <TranscriptIndicator status={c.transcriptStatus} />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
