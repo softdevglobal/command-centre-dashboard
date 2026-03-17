@@ -144,10 +144,10 @@ function createDefaultTestingGoLive(): TestingGoLive {
 /* ─── Seed Data ─── */
 
 const TENANTS: Tenant[] = [
-  { id: 't-001', name: 'Melbourne Plumbing Co', industry: 'Trades', status: 'active', brandColor: '#00d4f5' },
-  { id: 't-002', name: 'Sunrise Dental Group', industry: 'Healthcare', status: 'active', brandColor: '#34d399' },
-  { id: 't-003', name: 'Apex Real Estate', industry: 'Property', status: 'active', brandColor: '#a78bfa' },
-  { id: 't-004', name: 'Coastal Insurance', industry: 'Finance', status: 'active', brandColor: '#fb923c' },
+  { id: 't-001', name: 'Melbourne Plumbing Co', industry: 'Trades', status: 'active', brandColor: '#00d4f5', didNumbers: ['03 9000 1001', '03 9000 1002'] },
+  { id: 't-002', name: 'Sunrise Dental Group', industry: 'Healthcare', status: 'active', brandColor: '#34d399', didNumbers: ['03 9000 2001', '03 9000 2002'] },
+  { id: 't-003', name: 'Apex Real Estate', industry: 'Property', status: 'active', brandColor: '#a78bfa', didNumbers: ['03 9000 3001', '03 9000 3002'] },
+  { id: 't-004', name: 'Coastal Insurance', industry: 'Finance', status: 'active', brandColor: '#fb923c', didNumbers: ['03 9000 4001', '03 9000 4002'] },
 ];
 
 const QUEUES: Queue[] = [
