@@ -36,7 +36,7 @@ const SUPER_ADMIN_SESSION: UserSession = {
 
 /** Returns the current mock session. Replace with real auth. */
 export function getCurrentSession(): UserSession {
-  return SUPER_ADMIN_SESSION;
-  // return CLIENT_ADMIN_SESSION;
+  // return SUPER_ADMIN_SESSION;
+  return CLIENT_ADMIN_SESSION;
   // return AGENT_SESSION;
 }
