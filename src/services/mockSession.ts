@@ -38,5 +38,5 @@ export function getSessionByRole(role: UserRole): UserSession {
 }
 
 export function getCurrentSession(): UserSession {
-  return SESSIONS['agent'];
+  return SESSIONS['super-admin'];
 }
