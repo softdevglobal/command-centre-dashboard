@@ -316,6 +316,7 @@ const SIP_LINES: SipLine[] = [
 const clientsStore: TenantOnboarding[] = [
   {
     ...TENANTS[0],
+    didNumbers: TENANTS[0].didNumbers,
     onboardingStage: 'live' as OnboardingStage,
     contactName: 'Mark Brown', contactPhone: '0412000001', contactEmail: 'mark@melbplumbing.com.au',
     createdBy: 'u-sa-001', createdAt: new Date(Date.now() - 90 * 86400000).toISOString(), notes: 'First client onboarded',
