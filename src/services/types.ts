@@ -331,8 +331,50 @@ export interface Permissions {
   canEditClientDetails: boolean;
   canApproveGoLive: boolean;
   canRegressStage: boolean;
+  canViewShiftPanel: boolean;
   allowedTenantId: string | null;
   allowedQueueIds: string[];
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Agent Groups & DID Routing
+   ═══════════════════════════════════════════════════════════════ */
+
+export type RingStrategy = 'ring-all' | 'round-robin' | 'longest-idle';
+
+export interface AgentGroup {
+  id: string;
+  name: string;
+  tenantId: string;
+  queueId: string;
+  agentIds: string[];
+  ringStrategy: RingStrategy;
+}
+
+export interface DIDMapping {
+  did: string;
+  tenantId: string;
+  queueId: string;
+  label: string;
+}
+
+export type IncomingCallStatus = 'ringing' | 'queued';
+
+export interface IncomingCall {
+  id: string;
+  did: string;
+  callerNumber: string;
+  callerName: string | null;
+  tenantId: string;
+  tenantName: string;
+  tenantBrandColor: string;
+  queueId: string;
+  queueName: string;
+  groupId: string;
+  groupName: string;
+  didLabel: string;
+  waitingSince: number;
+  status: IncomingCallStatus;
 }
 
 export interface TabDef {
