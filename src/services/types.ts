@@ -49,6 +49,8 @@ export interface Agent {
   currentCaller: string | null;
   callStartTime: number | null;
   allowedQueueIds: string[];
+  assignedTenantIds: string[];
+  groupIds: string[];
   queueName?: string;
   tenantName?: string;
 }
