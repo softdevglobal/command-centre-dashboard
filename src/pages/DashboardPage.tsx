@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 const TABS: TabDef[] = [
   { key: 'overview', label: 'Overview', icon: '◉' },
   { key: 'agents', label: 'Agents', icon: '◎' },
+  { key: 'agent-onboarding', label: 'Agent Onboarding', icon: '⊕' },
   { key: 'calls', label: 'Calls', icon: '◈' },
   { key: 'sip', label: 'SIP Lines', icon: '◇' },
   { key: 'clients', label: 'Clients', icon: '◆' },
