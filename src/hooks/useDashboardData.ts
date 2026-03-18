@@ -49,6 +49,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
   const [calls, setCalls] = useState<Call[]>([]);
   const [sipLines, setSipLines] = useState<SipLine[]>([]);
   const [agentGroups, setAgentGroups] = useState<AgentGroup[]>([]);
+  const [agentOnboarding, setAgentOnboarding] = useState<AgentOnboarding[]>([]);
   const [incomingCalls, setIncomingCalls] = useState<IncomingCall[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
