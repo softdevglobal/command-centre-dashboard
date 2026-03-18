@@ -384,6 +384,54 @@ export interface TabDef {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   Agent Onboarding
+   ═══════════════════════════════════════════════════════════════ */
+
+export type AgentOnboardingStage = 'invited' | 'account-created' | 'training' | 'shadowing' | 'live';
+
+export interface TrainingChecklist {
+  pbxLogin: boolean;
+  scriptReview: boolean;
+  testCalls: boolean;
+  systemNav: boolean;
+}
+
+export interface AgentOnboarding {
+  id: string;
+  agentId: string;
+  userId: string | null;
+  stage: AgentOnboardingStage;
+  invitedBy: string | null;
+  invitedAt: string;
+  personalEmail: string;
+  phone: string;
+  notes: string;
+  trainingChecklist: TrainingChecklist;
+  createdAt: string;
+  updatedAt: string;
+  // Joined
+  agentName: string;
+  agentExtension: string;
+  agentTenantId: string;
+  agentQueueIds: string[];
+  agentGroupIds: string[];
+  agentStatus: string;
+  tenantName: string;
+}
+
+export interface NewAgentForm {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  tenantId: string;
+  queueIds: string[];
+  groupIds: string[];
+  extension: string;
+  notes: string;
+}
+
+/* ═══════════════════════════════════════════════════════════════
    Validation Types
    ═══════════════════════════════════════════════════════════════ */
 
