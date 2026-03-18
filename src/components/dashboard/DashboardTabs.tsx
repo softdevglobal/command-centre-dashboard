@@ -12,6 +12,7 @@ export function DashboardTabs({ tabs, selectedTab, onSelect, permissions }: Dash
   const visibleTabs = tabs.filter((t) => {
     if (t.key === 'overview') return permissions.canViewOverviewTab;
     if (t.key === 'agents') return permissions.canViewAgentsTab;
+    if (t.key === 'agent-onboarding') return permissions.canViewAgentOnboardingTab;
     if (t.key === 'calls') return permissions.canViewCallsTab;
     if (t.key === 'sip') return permissions.canViewSipTab;
     if (t.key === 'clients') return permissions.canViewClientsTab;
