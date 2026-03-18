@@ -1,20 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import type {
   Tenant, Queue, Agent, Call, SipLine,
-  DashboardSummary, UserSession, ConnectionStatus, UserRole,
+  DashboardSummary, UserSession, ConnectionStatus,
   AgentGroup, IncomingCall,
 } from '@/services/types';
 import {
-  fetchSession, fetchTenants, fetchSummary,
+  fetchTenants, fetchSummary,
   fetchQueues, fetchAgents, fetchCalls, fetchSipLines,
   fetchAgentGroups, fetchIncomingCalls,
 } from '@/services/dashboardApi';
-import { getSessionByRole } from '@/services/mockSession';
 
 const POLL_INTERVAL = 8000;
 
 export interface DashboardData {
-  session: UserSession | null;
   selectedTenant: string | null;
   setSelectedTenant: (id: string | null) => void;
   selectedTab: string;
@@ -32,11 +30,13 @@ export interface DashboardData {
   error: string | null;
   now: number;
   refresh: () => void;
-  switchRole: (role: UserRole) => void;
 }
 
-export function useDashboardData(): DashboardData {
-  const [session, setSession] = useState<UserSession | null>(null);
+interface UseDashboardDataProps {
+  session: UserSession | null;
+}
+
+export function useDashboardData({ session }: UseDashboardDataProps): DashboardData {
   const [selectedTenant, setSelectedTenant] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('overview');
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('connected');
@@ -52,30 +52,27 @@ export function useDashboardData(): DashboardData {
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState(Date.now());
 
-  // Live timer — ticks every second
+  // Set tenant from session
+  useEffect(() => {
+    if (session?.tenantId) {
+      setSelectedTenant(session.tenantId);
+    }
+  }, [session?.tenantId]);
+
+  // Live timer
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
   }, []);
 
-  // Fetch session on mount
-  useEffect(() => {
-    fetchSession().then((s) => {
-      setSession(s);
-      if (s.tenantId) {
-        setSelectedTenant(s.tenantId);
-      }
-    });
-  }, []);
-
-  // Effective tenant: respect session lock (agents with null tenantId see multi-tenant)
   const effectiveTenant = session?.tenantId || selectedTenant;
 
   const loadData = useCallback(async () => {
+    if (!session) return;
     try {
       setError(null);
       const tid = effectiveTenant || null;
-      const isAgent = session?.role === 'agent';
+      const isAgent = session.role === 'agent';
       const [t, s, q, a, c, sl, ag, ic] = await Promise.all([
         fetchTenants(),
         fetchSummary(tid),
@@ -84,7 +81,7 @@ export function useDashboardData(): DashboardData {
         fetchCalls(tid),
         fetchSipLines(tid),
         fetchAgentGroups(tid),
-        isAgent ? fetchIncomingCalls(session?.allowedQueueIds) : Promise.resolve([]),
+        isAgent ? fetchIncomingCalls(session.allowedQueueIds) : Promise.resolve([]),
       ]);
       setTenants(t);
       setSummary(s);
@@ -101,30 +98,22 @@ export function useDashboardData(): DashboardData {
     } finally {
       setLoading(false);
     }
-  }, [effectiveTenant, session?.role, session?.allowedQueueIds]);
+  }, [effectiveTenant, session]);
 
-  // Load on mount and when tenant changes
   useEffect(() => {
-    setLoading(true);
-    loadData();
-  }, [loadData]);
+    if (session) {
+      setLoading(true);
+      loadData();
+    }
+  }, [loadData, session]);
 
-  // Poll for updates
   useEffect(() => {
+    if (!session) return;
     const interval = setInterval(loadData, POLL_INTERVAL);
     return () => clearInterval(interval);
-  }, [loadData]);
-
-  const switchRole = useCallback((role: UserRole) => {
-    const newSession = getSessionByRole(role);
-    setSession(newSession);
-    setSelectedTenant(newSession.tenantId);
-    setSelectedTab('overview');
-    setLoading(true);
-  }, []);
+  }, [loadData, session]);
 
   return {
-    session,
     selectedTenant: effectiveTenant,
     setSelectedTenant,
     selectedTab,
@@ -142,6 +131,5 @@ export function useDashboardData(): DashboardData {
     error,
     now,
     refresh: loadData,
-    switchRole,
   };
 }

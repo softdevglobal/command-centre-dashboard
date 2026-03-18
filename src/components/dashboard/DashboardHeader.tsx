@@ -1,7 +1,6 @@
 import type { Tenant, Permissions, ConnectionStatus, UserRole } from '@/services/types';
 import { ConnectionBadge } from './ConnectionBadge';
 import { TenantSelector } from './TenantSelector';
-import { RoleSwitcher } from './RoleSwitcher';
 
 interface DashboardHeaderProps {
   tenants: Tenant[];
@@ -12,7 +11,7 @@ interface DashboardHeaderProps {
   permissions: Permissions;
   displayName: string;
   currentRole: UserRole;
-  onRoleChange: (role: UserRole) => void;
+  onSignOut: () => Promise<void>;
 }
 
 export function DashboardHeader({
@@ -24,7 +23,7 @@ export function DashboardHeader({
   permissions,
   displayName,
   currentRole,
-  onRoleChange,
+  onSignOut,
 }: DashboardHeaderProps) {
   const currentTenant = tenants.find((t) => t.id === permissions.allowedTenantId);
 
@@ -35,12 +34,11 @@ export function DashboardHeader({
         <div>
           <div className="cc-header-title">COMMAND CENTRE</div>
           <div className="cc-header-subtitle">
-            YEASTAR S-SERIES · MULTI-TENANT OPS · {displayName.toUpperCase()}
+            YEASTAR P-SERIES · {currentRole.toUpperCase()} · {displayName.toUpperCase()}
           </div>
         </div>
       </div>
       <div className="cc-header-right">
-        <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
         <TenantSelector
           tenants={tenants}
           selectedTenant={selectedTenant}
@@ -50,6 +48,13 @@ export function DashboardHeader({
         />
         <ConnectionBadge status={connectionStatus} />
         <div className="cc-clock">{clockStr}</div>
+        <button
+          onClick={onSignOut}
+          className="cc-role-select"
+          style={{ cursor: 'pointer' }}
+        >
+          Sign Out
+        </button>
       </div>
     </header>
   );
