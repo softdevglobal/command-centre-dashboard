@@ -76,7 +76,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
       setError(null);
       const tid = effectiveTenant || null;
       const isAgent = session.role === 'agent';
-      const [t, s, q, a, c, sl, ag, ic] = await Promise.all([
+      const [t, s, q, a, c, sl, ag, ic, ao] = await Promise.all([
         fetchTenants(),
         fetchSummary(tid),
         fetchQueues(tid),
@@ -85,6 +85,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
         fetchSipLines(tid),
         fetchAgentGroups(tid),
         isAgent ? fetchIncomingCalls(session.allowedQueueIds) : Promise.resolve([]),
+        fetchAgentOnboarding(tid),
       ]);
       setTenants(t);
       setSummary(s);
