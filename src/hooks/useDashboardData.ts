@@ -131,6 +131,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
     calls,
     sipLines,
     agentGroups,
+    agentOnboarding,
     incomingCalls,
     loading,
     error,
