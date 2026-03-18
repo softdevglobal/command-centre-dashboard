@@ -1,10 +1,9 @@
 import '@/styles/dashboard.css';
 
 import { useState, useCallback } from 'react';
-import type { TabDef, TenantOnboarding, NewClientForm } from '@/services/types';
+import type { TabDef, TenantOnboarding, NewClientForm, UserSession, Permissions } from '@/services/types';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { useLiveClock } from '@/hooks/useLiveClock';
-import { usePermissions } from '@/hooks/usePermissions';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 import { LoadingSkeleton } from '@/components/dashboard/LoadingSkeleton';
@@ -24,22 +23,27 @@ const TABS: TabDef[] = [
   { key: 'clients', label: 'Clients', icon: '◆' },
 ];
 
-export default function DashboardPage() {
-  const d = useDashboardData();
+interface DashboardPageProps {
+  session: UserSession;
+  permissions: Permissions;
+  onSignOut: () => Promise<void>;
+}
+
+export default function DashboardPage({ session, permissions, onSignOut }: DashboardPageProps) {
+  const d = useDashboardData({ session });
   const { formatted: clockStr } = useLiveClock();
-  const permissions = usePermissions(d.session);
   const [clients, setClients] = useState<TenantOnboarding[]>([]);
 
   useEffect(() => {
-    fetchClients(d.selectedTenant).then(setClients);
+    fetchClients(d.selectedTenant).then(setClients).catch(() => {});
   }, [d.selectedTenant]);
 
   const handleCreateClient = useCallback(async (data: NewClientForm) => {
-    if (!d.session) return;
-    await createClient(data, d.session.userId);
+    if (!session) return;
+    await createClient(data, session.userId);
     const updated = await fetchClients(d.selectedTenant);
     setClients(updated);
-  }, [d.session, d.selectedTenant]);
+  }, [session, d.selectedTenant]);
 
   const handleAdvanceStage = useCallback(async (clientId: string) => {
     await advanceClientStage(clientId);
@@ -56,9 +60,9 @@ export default function DashboardPage() {
         connectionStatus={d.connectionStatus}
         clockStr={clockStr}
         permissions={permissions}
-        displayName={d.session?.displayName || ''}
-        currentRole={d.session?.role || 'super-admin'}
-        onRoleChange={d.switchRole}
+        displayName={session.displayName}
+        currentRole={session.role}
+        onSignOut={onSignOut}
       />
 
       <DashboardTabs
@@ -88,7 +92,7 @@ export default function DashboardPage() {
                 tenants={d.tenants}
                 permissions={permissions}
                 now={d.now}
-                session={d.session}
+                session={session}
                 agentGroups={d.agentGroups}
                 incomingCalls={d.incomingCalls}
               />

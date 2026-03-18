@@ -1,0 +1,647 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.4"
+  }
+  public: {
+    Tables: {
+      agent_groups: {
+        Row: {
+          agent_ids: string[]
+          created_at: string
+          id: string
+          name: string
+          queue_id: string
+          ring_strategy: Database["public"]["Enums"]["ring_strategy"]
+          tenant_id: string
+        }
+        Insert: {
+          agent_ids?: string[]
+          created_at?: string
+          id: string
+          name: string
+          queue_id: string
+          ring_strategy?: Database["public"]["Enums"]["ring_strategy"]
+          tenant_id: string
+        }
+        Update: {
+          agent_ids?: string[]
+          created_at?: string
+          id?: string
+          name?: string
+          queue_id?: string
+          ring_strategy?: Database["public"]["Enums"]["ring_strategy"]
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_groups_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_groups_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agents: {
+        Row: {
+          allowed_queue_ids: string[]
+          assigned_tenant_ids: string[]
+          call_start_time: number | null
+          created_at: string
+          current_caller: string | null
+          extension: string
+          group_ids: string[]
+          id: string
+          name: string
+          queue_ids: string[]
+          role: Database["public"]["Enums"]["agent_role"]
+          status: Database["public"]["Enums"]["agent_status"]
+          tenant_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          allowed_queue_ids?: string[]
+          assigned_tenant_ids?: string[]
+          call_start_time?: number | null
+          created_at?: string
+          current_caller?: string | null
+          extension?: string
+          group_ids?: string[]
+          id: string
+          name: string
+          queue_ids?: string[]
+          role?: Database["public"]["Enums"]["agent_role"]
+          status?: Database["public"]["Enums"]["agent_status"]
+          tenant_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          allowed_queue_ids?: string[]
+          assigned_tenant_ids?: string[]
+          call_start_time?: number | null
+          created_at?: string
+          current_caller?: string | null
+          extension?: string
+          group_ids?: string[]
+          id?: string
+          name?: string
+          queue_ids?: string[]
+          role?: Database["public"]["Enums"]["agent_role"]
+          status?: Database["public"]["Enums"]["agent_status"]
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agents_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      calls: {
+        Row: {
+          agent_id: string | null
+          answer_time: string | null
+          caller_name: string | null
+          caller_number: string
+          created_at: string
+          duration_seconds: number
+          end_time: string | null
+          id: string
+          queue_id: string
+          recording_url: string | null
+          result: Database["public"]["Enums"]["call_result"]
+          start_time: string
+          summary_status: string
+          tenant_id: string
+          transcript_status: Database["public"]["Enums"]["transcript_status"]
+        }
+        Insert: {
+          agent_id?: string | null
+          answer_time?: string | null
+          caller_name?: string | null
+          caller_number?: string
+          created_at?: string
+          duration_seconds?: number
+          end_time?: string | null
+          id?: string
+          queue_id: string
+          recording_url?: string | null
+          result?: Database["public"]["Enums"]["call_result"]
+          start_time?: string
+          summary_status?: string
+          tenant_id: string
+          transcript_status?: Database["public"]["Enums"]["transcript_status"]
+        }
+        Update: {
+          agent_id?: string | null
+          answer_time?: string | null
+          caller_name?: string | null
+          caller_number?: string
+          created_at?: string
+          duration_seconds?: number
+          end_time?: string | null
+          id?: string
+          queue_id?: string
+          recording_url?: string | null
+          result?: Database["public"]["Enums"]["call_result"]
+          start_time?: string
+          summary_status?: string
+          tenant_id?: string
+          transcript_status?: Database["public"]["Enums"]["transcript_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calls_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      did_mappings: {
+        Row: {
+          did: string
+          label: string
+          queue_id: string
+          tenant_id: string
+        }
+        Insert: {
+          did: string
+          label?: string
+          queue_id: string
+          tenant_id: string
+        }
+        Update: {
+          did?: string
+          label?: string
+          queue_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "did_mappings_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "did_mappings_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string
+          id: string
+          tenant_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string
+          id: string
+          tenant_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          tenant_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      queues: {
+        Row: {
+          active_calls: number
+          available_agents: number
+          avg_wait_seconds: number
+          color: string
+          created_at: string
+          icon: string
+          id: string
+          name: string
+          sla_percent: number
+          tenant_id: string
+          total_agents: number
+          type: string
+          updated_at: string
+          waiting_calls: number
+        }
+        Insert: {
+          active_calls?: number
+          available_agents?: number
+          avg_wait_seconds?: number
+          color?: string
+          created_at?: string
+          icon?: string
+          id: string
+          name: string
+          sla_percent?: number
+          tenant_id: string
+          total_agents?: number
+          type?: string
+          updated_at?: string
+          waiting_calls?: number
+        }
+        Update: {
+          active_calls?: number
+          available_agents?: number
+          avg_wait_seconds?: number
+          color?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          name?: string
+          sla_percent?: number
+          tenant_id?: string
+          total_agents?: number
+          type?: string
+          updated_at?: string
+          waiting_calls?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "queues_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sip_lines: {
+        Row: {
+          active_caller: string | null
+          active_since: number | null
+          created_at: string
+          id: string
+          label: string
+          status: Database["public"]["Enums"]["sip_line_status"]
+          tenant_id: string | null
+          trunk_name: string
+        }
+        Insert: {
+          active_caller?: string | null
+          active_since?: number | null
+          created_at?: string
+          id: string
+          label?: string
+          status?: Database["public"]["Enums"]["sip_line_status"]
+          tenant_id?: string | null
+          trunk_name?: string
+        }
+        Update: {
+          active_caller?: string | null
+          active_since?: number | null
+          created_at?: string
+          id?: string
+          label?: string
+          status?: Database["public"]["Enums"]["sip_line_status"]
+          tenant_id?: string | null
+          trunk_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sip_lines_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenant_onboarding: {
+        Row: {
+          activity_log: Json
+          booking_rules: Json
+          business_rules: Json
+          client_details: Json
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at: string
+          created_by: string
+          id: string
+          notes: string
+          onboarding_stage: Database["public"]["Enums"]["onboarding_stage"]
+          queue_setup: Json
+          script_knowledge_base: Json
+          testing_go_live: Json
+          updated_at: string
+        }
+        Insert: {
+          activity_log?: Json
+          booking_rules?: Json
+          business_rules?: Json
+          client_details?: Json
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string
+          created_at?: string
+          created_by?: string
+          id: string
+          notes?: string
+          onboarding_stage?: Database["public"]["Enums"]["onboarding_stage"]
+          queue_setup?: Json
+          script_knowledge_base?: Json
+          testing_go_live?: Json
+          updated_at?: string
+        }
+        Update: {
+          activity_log?: Json
+          booking_rules?: Json
+          business_rules?: Json
+          client_details?: Json
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          notes?: string
+          onboarding_stage?: Database["public"]["Enums"]["onboarding_stage"]
+          queue_setup?: Json
+          script_knowledge_base?: Json
+          testing_go_live?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_onboarding_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenants: {
+        Row: {
+          brand_color: string
+          created_at: string
+          did_numbers: string[]
+          id: string
+          industry: string
+          name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          brand_color?: string
+          created_at?: string
+          did_numbers?: string[]
+          id: string
+          industry?: string
+          name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          brand_color?: string
+          created_at?: string
+          did_numbers?: string[]
+          id?: string
+          industry?: string
+          name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      get_user_tenant: { Args: { _user_id: string }; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+    }
+    Enums: {
+      agent_role: "agent" | "senior-agent" | "team-lead"
+      agent_status: "on-call" | "available" | "wrap-up" | "break" | "offline"
+      app_role: "super-admin" | "client-admin" | "supervisor" | "agent"
+      call_result: "answered" | "abandoned" | "missed" | "voicemail"
+      onboarding_stage:
+        | "new"
+        | "contacted"
+        | "discovery-complete"
+        | "tenant-created"
+        | "queue-setup-complete"
+        | "script-setup-complete"
+        | "testing"
+        | "awaiting-approval"
+        | "live"
+        | "needs-revision"
+      ring_strategy: "ring-all" | "round-robin" | "longest-idle"
+      sip_line_status: "active" | "idle" | "error"
+      transcript_status: "pending" | "processing" | "ready" | "none"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+}
+
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      agent_role: ["agent", "senior-agent", "team-lead"],
+      agent_status: ["on-call", "available", "wrap-up", "break", "offline"],
+      app_role: ["super-admin", "client-admin", "supervisor", "agent"],
+      call_result: ["answered", "abandoned", "missed", "voicemail"],
+      onboarding_stage: [
+        "new",
+        "contacted",
+        "discovery-complete",
+        "tenant-created",
+        "queue-setup-complete",
+        "script-setup-complete",
+        "testing",
+        "awaiting-approval",
+        "live",
+        "needs-revision",
+      ],
+      ring_strategy: ["ring-all", "round-robin", "longest-idle"],
+      sip_line_status: ["active", "idle", "error"],
+      transcript_status: ["pending", "processing", "ready", "none"],
+    },
+  },
+} as const
