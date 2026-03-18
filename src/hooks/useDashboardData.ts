@@ -2,13 +2,14 @@ import { useState, useEffect, useCallback } from 'react';
 import type {
   Tenant, Queue, Agent, Call, SipLine,
   DashboardSummary, UserSession, ConnectionStatus,
-  AgentGroup, IncomingCall,
+  AgentGroup, IncomingCall, AgentOnboarding,
 } from '@/services/types';
 import {
   fetchTenants, fetchSummary,
   fetchQueues, fetchAgents, fetchCalls, fetchSipLines,
   fetchAgentGroups, fetchIncomingCalls,
 } from '@/services/dashboardApi';
+import { fetchAgentOnboarding } from '@/services/agentOnboardingApi';
 
 const POLL_INTERVAL = 8000;
 
