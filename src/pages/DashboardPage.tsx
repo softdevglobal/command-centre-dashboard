@@ -12,6 +12,7 @@ import { AgentsTab } from '@/tabs/AgentsTab';
 import { CallsTab } from '@/tabs/CallsTab';
 import { SipLinesTab } from '@/tabs/SipLinesTab';
 import { ClientsTab } from '@/tabs/ClientsTab';
+import { AgentOnboardingTab } from '@/tabs/AgentOnboardingTab';
 import { fetchClients, createClient, advanceClientStage } from '@/services/dashboardApi';
 import { useEffect } from 'react';
 
