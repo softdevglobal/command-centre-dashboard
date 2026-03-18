@@ -19,6 +19,7 @@ const EMPTY_PERMISSIONS: Permissions = {
   canViewOverviewTab: false, canViewSipTab: false, canViewClientsTab: false,
   canSignUpClients: false, canAdvanceOnboarding: false, canEditClientDetails: false,
   canApproveGoLive: false, canRegressStage: false, canViewShiftPanel: false,
+  canOnboardAgents: false, canViewAgentOnboarding: false, canViewAgentOnboardingTab: false,
   allowedTenantId: null, allowedQueueIds: [],
 };
 

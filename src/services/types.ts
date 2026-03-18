@@ -332,6 +332,9 @@ export interface Permissions {
   canApproveGoLive: boolean;
   canRegressStage: boolean;
   canViewShiftPanel: boolean;
+  canOnboardAgents: boolean;
+  canViewAgentOnboarding: boolean;
+  canViewAgentOnboardingTab: boolean;
   allowedTenantId: string | null;
   allowedQueueIds: string[];
 }
