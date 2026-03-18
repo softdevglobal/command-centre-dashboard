@@ -12,12 +12,14 @@ import { AgentsTab } from '@/tabs/AgentsTab';
 import { CallsTab } from '@/tabs/CallsTab';
 import { SipLinesTab } from '@/tabs/SipLinesTab';
 import { ClientsTab } from '@/tabs/ClientsTab';
+import { AgentOnboardingTab } from '@/tabs/AgentOnboardingTab';
 import { fetchClients, createClient, advanceClientStage } from '@/services/dashboardApi';
 import { useEffect } from 'react';
 
 const TABS: TabDef[] = [
   { key: 'overview', label: 'Overview', icon: '◉' },
   { key: 'agents', label: 'Agents', icon: '◎' },
+  { key: 'agent-onboarding', label: 'Agent Onboarding', icon: '⊕' },
   { key: 'calls', label: 'Calls', icon: '◈' },
   { key: 'sip', label: 'SIP Lines', icon: '◇' },
   { key: 'clients', label: 'Clients', icon: '◆' },
@@ -104,6 +106,16 @@ export default function DashboardPage({ session, permissions, onSignOut }: Dashb
                 tenants={d.tenants}
                 permissions={permissions}
                 now={d.now}
+              />
+            )}
+            {d.selectedTab === 'agent-onboarding' && (
+              <AgentOnboardingTab
+                agentOnboarding={d.agentOnboarding}
+                tenants={d.tenants}
+                queues={d.queues}
+                agentGroups={d.agentGroups}
+                permissions={permissions}
+                onRefresh={d.refresh}
               />
             )}
             {d.selectedTab === 'calls' && (

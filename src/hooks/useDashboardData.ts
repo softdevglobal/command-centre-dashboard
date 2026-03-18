@@ -2,13 +2,14 @@ import { useState, useEffect, useCallback } from 'react';
 import type {
   Tenant, Queue, Agent, Call, SipLine,
   DashboardSummary, UserSession, ConnectionStatus,
-  AgentGroup, IncomingCall,
+  AgentGroup, IncomingCall, AgentOnboarding,
 } from '@/services/types';
 import {
   fetchTenants, fetchSummary,
   fetchQueues, fetchAgents, fetchCalls, fetchSipLines,
   fetchAgentGroups, fetchIncomingCalls,
 } from '@/services/dashboardApi';
+import { fetchAgentOnboarding } from '@/services/agentOnboardingApi';
 
 const POLL_INTERVAL = 8000;
 
@@ -25,6 +26,7 @@ export interface DashboardData {
   calls: Call[];
   sipLines: SipLine[];
   agentGroups: AgentGroup[];
+  agentOnboarding: AgentOnboarding[];
   incomingCalls: IncomingCall[];
   loading: boolean;
   error: string | null;
@@ -47,6 +49,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
   const [calls, setCalls] = useState<Call[]>([]);
   const [sipLines, setSipLines] = useState<SipLine[]>([]);
   const [agentGroups, setAgentGroups] = useState<AgentGroup[]>([]);
+  const [agentOnboarding, setAgentOnboarding] = useState<AgentOnboarding[]>([]);
   const [incomingCalls, setIncomingCalls] = useState<IncomingCall[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +76,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
       setError(null);
       const tid = effectiveTenant || null;
       const isAgent = session.role === 'agent';
-      const [t, s, q, a, c, sl, ag, ic] = await Promise.all([
+      const [t, s, q, a, c, sl, ag, ic, ao] = await Promise.all([
         fetchTenants(),
         fetchSummary(tid),
         fetchQueues(tid),
@@ -82,6 +85,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
         fetchSipLines(tid),
         fetchAgentGroups(tid),
         isAgent ? fetchIncomingCalls(session.allowedQueueIds) : Promise.resolve([]),
+        fetchAgentOnboarding(tid),
       ]);
       setTenants(t);
       setSummary(s);
@@ -91,6 +95,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
       setSipLines(sl);
       setAgentGroups(ag);
       setIncomingCalls(ic);
+      setAgentOnboarding(ao);
       setConnectionStatus('connected');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load dashboard data');
@@ -126,6 +131,7 @@ export function useDashboardData({ session }: UseDashboardDataProps): DashboardD
     calls,
     sipLines,
     agentGroups,
+    agentOnboarding,
     incomingCalls,
     loading,
     error,

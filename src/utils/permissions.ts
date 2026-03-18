@@ -28,6 +28,9 @@ export function derivePermissions(session: UserSession): Permissions {
     canApproveGoLive: isSuperAdmin,
     canRegressStage: isSuperAdmin || isClientAdmin || isSupervisor,
     canViewShiftPanel: isAgent,
+    canOnboardAgents: isSuperAdmin || isClientAdmin,
+    canViewAgentOnboarding: isSuperAdmin || isClientAdmin || isSupervisor,
+    canViewAgentOnboardingTab: isSuperAdmin || isClientAdmin || isSupervisor,
     allowedTenantId: tenantId,
     allowedQueueIds: allowedQueueIds,
   };
