@@ -26,6 +26,7 @@ export interface DashboardData {
   calls: Call[];
   sipLines: SipLine[];
   agentGroups: AgentGroup[];
+  agentOnboarding: AgentOnboarding[];
   incomingCalls: IncomingCall[];
   loading: boolean;
   error: string | null;
